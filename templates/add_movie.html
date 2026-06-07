@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj film - API</title>
+</head>
+<body style="font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px;">
+    <h2>Wyszukaj film w bazie OMDb</h2>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <p style="color: red; font-weight: bold;">
+            {% for message in messages %} {{ message }} {% endfor %}
+            </p>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post">
+        <input type="text" name="title" placeholder="Wpisz angielski tytuł (np. Matrix)" required style="padding: 10px; width: 300px;">
+        <button type="submit" style="padding: 10px;">Szukaj i zapisz</button>
+    </form>
+    <br>
+    <a href="{{ url_for('web.index') }}">Powrót do listy</a>
+</body>
+</html>

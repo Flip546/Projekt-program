@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moja Baza Filmów</title>
+</head>
+<body style="font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px;">
+    <h1>🍿 Moja Baza Filmów</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div style="background-color: #ffd700; padding: 10px; margin-bottom: 20px; border-radius: 5px;">
+            {% for message in messages %}
+                <p style="margin: 0;"><b>Wiadomość:</b> {{ message }}</p>
+            {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('web.add_movie_route') }}" style="display:inline-block; padding: 10px; background: #007bff; color: white; text-decoration: none; border-radius: 5px;">➕ Szukaj i dodaj film z API</a>
+    
+    <hr>
+
+    {% for movie in movies %}
+        <div style="display: flex; gap: 20px; border-bottom: 1px solid #ccc; padding: 10px 0;">
+            {% if movie['poster_url'] %}
+                <img src="{{ movie['poster_url'] }}" width="100" style="border-radius: 5px;" alt="Plakat">
+            {% else %}
+                <div style="width: 100px; background: #eee; text-align: center; line-height: 150px;">Brak plakatu</div>
+            {% endif %}
+            
+            <div>
+                <h3 style="margin: 0;">
+                    {{ movie['title'] }} ({{ movie['year'] }})
+                    {% if movie['watched'] %} ✅ Obejrzane {% else %} 🕒 Do obejrzenia {% endif %}
+                </h3>
+                <p><i>{{ movie['plot'] }}</i></p>
+                <div style="display: flex; gap: 10px;">
+                    <form method="post" action="{{ url_for('web.toggle', movie_id=movie['id']) }}">
+                        <button type="submit">Zmień status</button>
+                    </form>
+                    <form method="post" action="{{ url_for('web.delete', movie_id=movie['id']) }}">
+                        <button type="submit">Usuń</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>Baza jest pusta. Dodaj swój pierwszy film!</p>
+    {% endfor %}
+</body>
+</html>
