@@ -1,0 +1,3 @@
+pip install Flask requests
+flask init-db
+python app.py
